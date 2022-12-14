@@ -1,3 +1,13 @@
 {% extends 'base.html' %}
+{% load rest_framework %}
 
 {% block title %}главная{% endblock title %}
+
+{% block as %}
+    {% if user %}
+    <h1>Пользователь зарегистрирован</h1>
+    <h2>Имя пользователя: {{ user.username }}</h2>
+    {% else %}
+    <h1>Пользователь не зарегистрирован!</h1>
+    {% endif %}
+{% endblock as %}
