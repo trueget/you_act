@@ -4,7 +4,7 @@
 {% block title %}главная{% endblock title %}
 
 {% block as %}
-    {% if user %}
+    {% if user.is_authenticated %}
     <h1>Пользователь зарегистрирован</h1>
     <h2>Имя пользователя: {{ user.username }}</h2>
     {% else %}

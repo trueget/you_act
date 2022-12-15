@@ -10,5 +10,6 @@ from users.views import index, UserRegisterViews
 urlpatterns = [
     # path('', include(router.urls)),
     path('', index, name='index'),
-    path('register/', UserRegisterViews.as_view, name='register'),
+    # path('register/', UserRegisterViews.as_view, name='register'),
+    path('register/', UserRegisterViews.as_view())
 ]
