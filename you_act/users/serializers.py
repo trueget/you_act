@@ -4,13 +4,12 @@ from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(label='Повторите пароль')
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'password2')
+        fields = ('id', 'username', 'email', 'password')
         # fields = '__all__'
-        extra_kwargs = {'password': {'write_only': True}, 'password2': {'write_only': True}}
+        extra_kwargs = {'password': {'write_only': True}}
 
         # def create(self, validated_data):
         #     password = validated_data.pop('password')
@@ -25,26 +24,26 @@ class UserSerializer(serializers.ModelSerializer):
         #     user.save()
         #     return user
         
-    def save(self, *args, **kwargs):
-        # Создаём объект класса User
-        user = User(
-        email=self.validated_data['email'], # Назначаем Email
-        username=self.validated_data['username'], # Назначаем Логин
-        )
-        # Проверяем на валидность пароль
-        password = self.validated_data['password']
-        # Проверяем на валидность повторный пароль
-        password2 = self.validated_data['password2']
-        # Проверяем совпадают ли пароли
-        if password != password2:
-        # Если нет, то выводим ошибку
-            raise serializers.ValidationError({password: "Парольи не совпадает"})
-        # Сохраняем пароль
-        user.set_password(password)
-        # Сохраняем пользователя
-        user.save()
-        # Возвращаем нового пользователя 
-        return user
+    # def save(self, *args, **kwargs):
+    #     # Создаём объект класса User
+    #     user = User(
+    #     email=self.validated_data['email'], # Назначаем Email
+    #     username=self.validated_data['username'], # Назначаем Логин
+    #     )
+    #     # Проверяем на валидность пароль
+    #     password = self.validated_data['password']
+    #     # Проверяем на валидность повторный пароль
+    #     password2 = self.validated_data['password2']
+    #     # Проверяем совпадают ли пароли
+    #     if password != password2:
+    #     # Если нет, то выводим ошибку
+    #         raise serializers.ValidationError({password: "Парольи не совпадает"})
+    #     # Сохраняем пароль
+    #     user.set_password(password)
+    #     # Сохраняем пользователя
+    #     user.save()
+    #     # Возвращаем нового пользователя 
+    #     return user
                 
 
 

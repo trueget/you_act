@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 
-from rest_framework.views import APIView
-from rest_framework.renderers import TemplateHTMLRenderer
+# from rest_framework.views import APIView
+# from rest_framework.renderers import TemplateHTMLRenderer
 from users.serializers import UserSerializer
 
 from rest_framework import generics
@@ -11,7 +11,6 @@ from rest_framework.permissions import AllowAny
 # Create your views here.
 
 def index(request):
-    print('-'*50, 'функция index')
     return render(request, 'index.html', {'user': request.user})
 
 
@@ -36,3 +35,14 @@ class UserRegisterViews(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (AllowAny, )
+
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
