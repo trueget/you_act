@@ -15,6 +15,13 @@ class UserProfile(models.Model):
     birth_day = models.DateField(blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     phone_number = models.CharField(max_length=12, blank=True, null=True)
+    vk = models.CharField(max_length=500, blank=True, null=True)
+    ok = models.CharField(max_length=500, blank=True, null=True)
+    fb = models.CharField(max_length=500, blank=True, null=True)
+    linkedin = models.CharField(max_length=500, blank=True, null=True)
+    inst = models.CharField(max_length=500, blank=True, null=True)
+    git = models.CharField(max_length=500, blank=True, null=True)
+    twitter = models.CharField(max_length=500, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
