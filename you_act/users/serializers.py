@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         # Сохраняем пользователя
         user.save()
-        # сохраняем профиль пользователя
+        # создаем и сохраняем профиль пользователя
         profile = UserProfile(user=user)
         profile.save()
         # Возвращаем нового пользователя 
@@ -33,7 +33,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
-    real_name = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile

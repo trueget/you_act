@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+
+{% block title %}главная{% endblock title %}
+
+{% block as %}
+    {% if user.is_authenticated %}
+    <h1>Пользователь зарегистрирован</h1>
+    <h2>Имя пользователя: {{ user.username }}</h2>
+    {% else %}
+    <h1>Пользователь не зарегистрирован!</h1>
+    {% endif %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <h1>ooooooo</h1>
+    {% for user in user_profile %}
+    <p>Login: <strong>{{user.user}}</strong></p>
+        <p>ID: <strong>{{user.id}}</strong></p>
+        <p>E-mail: <strong>{{user.user.email}}</strong></p>
+        <p>B_DAY: <strong>{{user.birth_day}}</strong></p>
+        <p>BIO: <strong>{{user.bio}}</strong></p>
+        <p>PHONE NUMBER: <strong>{{user.phone_number}}</strong></p>
+        <p>VK: <strong>{{user.vk}}</strong></p>
+        <p>OK: <strong>{{user.ok}}</strong></p>
+        <p>FB: <strong>{{user.fb}}</strong></p>
+        <p>LINKEDIN: <strong>{{user.linkedin}}</strong></p>
+        <p>INST: <strong>{{user.inst}}</strong></p>
+        <p>GIT: <strong>{{user.git}}</strong></p>
+        <p>TWITTER: <strong>{{user.twitter}}</strong></p>
+    {% endfor %}
+{% endblock as %}
