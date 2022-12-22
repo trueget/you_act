@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
-{% load rest_framework %}
 
-{% block title %}главная{% endblock title %}
+{% block title %}мой профиль{% endblock title %}
 
 {% block as %}
     {% if user.is_authenticated %}
@@ -30,4 +29,5 @@
         <p>GIT: <strong>{{user.git}}</strong></p>
         <p>TWITTER: <strong>{{user.twitter}}</strong></p>
     {% endfor %}
+    <a href="{% url 'users:update-profile' %}">обновить мой профиль</a> 
 {% endblock as %}
