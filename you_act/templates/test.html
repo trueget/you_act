@@ -1,0 +1,15 @@
+
+
+{% load rest_framework %}
+
+<html><body>
+
+<h1>Profile - {{ profile }}</h1>
+
+<form action="{% url 'users:test' pk=profile.pk %}" method="POST">
+    {% csrf_token %}
+    {% render_form serializer %}
+    <input type="submit" value="сохранить">
+</form>
+
+</body></html>

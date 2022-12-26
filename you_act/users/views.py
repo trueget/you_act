@@ -19,6 +19,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
+from rest_framework.renderers import TemplateHTMLRenderer
+from django.shortcuts import get_object_or_404
+
 # Create your views here.
 
 def index(request):
@@ -125,3 +128,30 @@ class UserProfileDetail(APIView):
     #     userprofile = self.get_ob(id=id)
     #     userprofile.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# class UserProfileList(APIView):
+#     renderer_classes = [TemplateHTMLRenderer]
+#     template_name = 'test.html'
+
+#     def get(self, request):
+#         queryset = UserProfile.objects.get(user=request.user)
+#         return Response({'profile': queryset})
+
+
+class ProfileDetail(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'test.html'
+
+    def get(self, request, pk):
+        profile = get_object_or_404(UserProfile, pk=pk)
+        serializer = UserProfileSerializer(profile)
+        return Response({'serializer': serializer, 'profile': profile})
+
+    def post(self, request, pk):
+        profile = get_object_or_404(UserProfile, pk=pk)
+        serializer = UserProfileSerializer(profile, data=request.data)
+        if not serializer.is_valid():
+            return Response({'serializer': serializer, 'profile': profile})
+        serializer.save()
+        return redirect('/')

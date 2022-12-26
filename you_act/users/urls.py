@@ -10,6 +10,8 @@ from users.views import (
     # UserProfileList
     UserProfileAPIView,
     UserProfileDetail,
+    # UserProfileList,
+    ProfileDetail
     )
 from django.contrib.auth import views as auth_views
 # from rest_framework import routers
@@ -37,4 +39,6 @@ urlpatterns = [
 
     path('my-profile/', UserProfileView.as_view(), name='my-profile'),
     path('update-profile/', UpdateUserProfileView.as_view(), name='update-profile'),
+    # path('my_profile/', UserProfileList.as_view()),
+    path('my_profile/<int:pk>/', ProfileDetail.as_view(), name='test'),
 ]
