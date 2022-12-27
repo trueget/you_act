@@ -1,0 +1,19 @@
+{% load rest_framework %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>мой профиль</title>
+</head>
+<body>
+    <h1>Profile - {{ profile }}</h1>
+
+    <form action="{% url 'users:my-profile' %}" method="POST">
+        {% csrf_token %}
+        {% render_form serializer %}
+        <input type="submit" value="сохранить">
+    </form>
+</body>
+</html>

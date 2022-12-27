@@ -1,0 +1,22 @@
+{% load rest_framework %}
+
+<html><body>
+
+<h1>Profile - {{ profile.user }}</h1>
+
+<form action="{% url 'users:user-profile' pk=profile.id %}" method="POST">
+    {{ profile.bio }}
+    <br>
+    {{ profile.birth_day }}<br>
+    {{ profile.avatar }}<br>
+    {{ profile.phone_number }}<br>
+    {{ profile.vk }}<br>
+    {{ profile.ok }}<br>
+    {{ profile.fb }}<br>
+    {{ profile.linkedin }}<br>
+    {{ profile.inst }}<br>
+    {{ profile.git }}<br>
+    {{ profile.twitter }}<br>
+</form>
+
+</body></html>

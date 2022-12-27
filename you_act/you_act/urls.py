@@ -22,12 +22,7 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    # path('', RedirectView.as_view(url='/my-profile/'), name='home'),
-
     path('admin/', admin.site.urls),
-    path('api/v1/api-auth/', include('rest_framework.urls')),
-    path('api/v1/auth/', include('djoser.urls')),
-    path('api/v1/auth_token/', include('djoser.urls.authtoken')),
 
     path('', include('users.urls')),
 ]

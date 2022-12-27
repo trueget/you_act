@@ -12,6 +12,9 @@
     {% endif %}
 
 
-    <a href="{% url 'users:my-profile' %}">мой профиль</a>
-    <a href="{% url 'users:update-profile' %}">обновить мой профиль</a>
+    <a href="{% url 'users:logout' %}">Logout</a>
+    <br>
+    <a href="{% url 'users:my-profile' %}">обновить мой профиль</a>
+    <br>
+    <a href="{% url 'users:my-profile' %}">все пользователи</a>
 {% endblock as %}
