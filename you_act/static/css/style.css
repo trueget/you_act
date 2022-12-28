@@ -1,0 +1,59 @@
+body{
+    background-color: #000;
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+.header-container-mid>a{
+    color: #909296;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.header-container-right{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.item-signup{
+    padding: 5px;
+    border: #fff 1px solid;
+    border-radius: 8px;
+}
+
+div>a, .h1-container{
+    margin: 0 10px;
+}
+
+.header{
+    border-bottom: #909296 0.5px solid;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+}
+
+.end-header{
+    margin-top: 60px;
+}
+
+.header-container{
+    height: 100%;
+    margin: 0 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* .header-container-left, .header-container-mid, .header-container-right{
+    
+} */
+
+.block-greetings{
+    height: 450px;
+    border-bottom: #909296 0.5px solid;
+}

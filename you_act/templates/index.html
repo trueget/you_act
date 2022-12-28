@@ -14,7 +14,9 @@
 
     <a href="{% url 'users:logout' %}">Logout</a>
     <br>
+    <a href="{% url 'users:login' %}">Login</a>
+    <br>
     <a href="{% url 'users:my-profile' %}">обновить мой профиль</a>
     <br>
-    <a href="{% url 'users:my-profile' %}">все пользователи</a>
+    <a href="{% url 'users:profile-list' %}">все пользователи</a>
 {% endblock as %}

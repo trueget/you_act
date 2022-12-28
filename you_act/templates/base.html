@@ -3,6 +3,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" type="text/css">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
@@ -10,6 +12,44 @@
     </title>
 </head>
 <body>
+    {% block header %}
+    <header>
+        <div class="header">
+            <div class="header-container">
+                <div class="header-container-left"><a href="/">Name</a></div>
+                <div class="header-container-mid">
+                    {% if user.is_authenticated %}
+                    <a href="/">Projects</a>
+                    <a href="{% url 'users:my-profile' %}">Profile</a>
+                    <a href="/">Search</a>
+                    {% endif %}
+                    <a href="/">About</a>
+                    <a href="/">Somethink</a>
+                </div>
+                <div class="header-container-right">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'users:logout' %}">Sign out</a>
+                    {% else %}
+                        <a href="{% url 'users:login' %}">Login</a>
+                        <div class="item-signup">
+                            <a href="{% url 'users:register' %}">Sign Up</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="end-header"></div>
+    </header>
+    {% endblock header %}
+
+    {% block my_profile %}{% endblock my_profile %}
+    {% block profile_list %}{% endblock profile_list %}
+
+    {% block proj_managment %}
+    <div class="block-greetings">
+
+    </div>
+    {% endblock proj_managment %}
 
     {% block as %}{% endblock as %}
 
