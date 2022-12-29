@@ -1,7 +1,9 @@
+{% extends 'base.html' %}
 {% load rest_framework %}
 
-<html><body>
+{% block title %}profile {{ profile }} {% endblock title %}
 
+{% block user_profile %}
 <h1>Profile - {{ profile.user }}</h1>
 
 <form action="{% url 'users:user-profile' pk=profile.id %}" method="POST">
@@ -19,4 +21,4 @@
     {{ profile.twitter }}<br>
 </form>
 
-</body></html>
+{% endblock user_profile %}
