@@ -6,7 +6,7 @@
 {% block my_profile %}
     <h1>Profile - {{ profile }}</h1>
 
-    <form action="{% url 'users:my-profile' %}" method="POST">
+    <form action="{% url 'users:my-profile' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% render_form serializer %}
         <input type="submit" value="сохранить">

@@ -99,7 +99,8 @@ WSGI_APPLICATION = 'you_act.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'db_you_act_proj',
         'USER': 'postgres',
         'PASSWORD': os.getenv('db_password'),

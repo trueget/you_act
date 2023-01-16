@@ -6,19 +6,53 @@
 {% block user_profile %}
 <h1>Profile - {{ profile.user }}</h1>
 
-<form action="{% url 'users:user-profile' pk=profile.id %}" method="POST">
-    {{ profile.bio }}
-    <br>
-    {{ profile.birth_day }}<br>
-    {{ profile.avatar }}<br>
-    {{ profile.phone_number }}<br>
-    {{ profile.vk }}<br>
-    {{ profile.ok }}<br>
-    {{ profile.fb }}<br>
-    {{ profile.linkedin }}<br>
-    {{ profile.inst }}<br>
-    {{ profile.git }}<br>
-    {{ profile.twitter }}<br>
+<form action="{% url 'users:user-profile' pk=profile.id %}" method="POST" enctype="multipart/form-data">
+    {% if profile.bio %}
+    bio - {{ profile.bio }}<br>
+    {% endif %}
+
+    {% if profile.birth_day %}
+    B-day - {{ profile.birth_day }}<br>
+    {% endif %}
+
+    {% if profile.avatar %}
+    <img src="{{ profile.avatar }}" alt="">
+    <img src="/media/users_avatar/i_got_love.jpeg" alt="">
+    Avatar - {{ profile.avatar }}<br>
+    {% endif %}
+
+    {% if profile.phone_number %}
+    Phone - {{ profile.phone_number }}<br>
+    {% endif %}
+
+    {% if profile.vk %}
+    vk - {{ profile.vk }}<br>
+    {% endif %}
+
+    {% if profile.ok %}
+    ok - {{ profile.ok }}<br>
+    {% endif %}
+
+    {% if profile.fb %}
+    fb - {{ profile.fb }}<br>
+    {% endif %}
+
+    {% if profile.linkedin %}
+    linkedin - {{ profile.linkedin }}<br>
+    {% endif %}
+
+    {% if profile.inst %}
+    instagram - {{ profile.inst }}<br>
+    {% endif %}
+
+    {% if profile.git %}
+    git - {{ profile.git }}<br>
+    {% endif %}
+
+    {% if profile.twitter %}
+    twitter - {{ profile.twitter }}<br>
+    {% endif %}
 </form>
+<img src="/media/users_avatar/i_got_love.jpeg" alt="">
 
 {% endblock user_profile %}

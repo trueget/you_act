@@ -5,10 +5,10 @@
 
 {% block as %}
     {% if user.is_authenticated %}
-    <h1>Пользователь зарегистрирован</h1>
-    <h2>Имя пользователя: {{ user.username }}</h2>
+        <h1>Пользователь зарегистрирован</h1>
+        <h2>Имя пользователя: {{ user.username }}</h2>
     {% else %}
-    <h1>Пользователь не зарегистрирован!</h1>
+        <h1>Пользователь не зарегистрирован!</h>
     {% endif %}
 
 
@@ -16,7 +16,9 @@
     <br>
     <a href="{% url 'users:login' %}">Login</a>
     <br>
-    <a href="{% url 'users:my-profile' %}">обновить мой профиль</a>
-    <br>
+    {% if user.is_authenticated %}
+        <a href="{% url 'users:my-profile' %}">обновить мой профиль</a>
+        <br>
+    {% endif %}
     <a href="{% url 'users:profile-list' %}">все пользователи</a>
 {% endblock as %}

@@ -39,7 +39,11 @@ class MyProfileDetail(APIView):
         profile = get_object_or_404(UserProfile, user=request.user)
         serializer = UserProfileSerializer(profile, data=request.data)
         if not serializer.is_valid():
+            print('-'*50, 'not valid')
+            print(serializer)
             return Response({'serializer': serializer, 'profile': profile})
+        print('-'*50, '  valid')
+        print(serializer)
         serializer.save()
         return redirect('/')
 
@@ -49,7 +53,7 @@ class ProfileList(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'profile_list.html'
 
-    def get(self, request):
+    def get(self):
         queryset = UserProfile.objects.all()
         return Response({'profiles': queryset})
 
@@ -59,7 +63,7 @@ class ProfileDetail(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'user_profile.html'
 
-    def get(self, request, pk):
+    def get(self, pk):
         profile = get_object_or_404(UserProfile, pk=pk)
         serializer = UserProfileSerializer(profile)
         return Response({'serializer': serializer, 'profile': profile})
