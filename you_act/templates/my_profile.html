@@ -8,7 +8,10 @@
 
     <form action="{% url 'users:my-profile' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <img class="user-profile-img" src="{{ profile.avatar.url }}" alt="">
+
+        {% if profile.avatar %}
+            <img class="user-profile-img" src="{{ profile.avatar.url }}" alt="">
+        {% endif %}
         
         {% render_form serializer %}
         <input type="submit" value="сохранить">
