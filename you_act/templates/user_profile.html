@@ -16,9 +16,7 @@
     {% endif %}
 
     {% if profile.avatar %}
-    <img src="{{ profile.avatar }}" alt="">
-    <img src="/media/users_avatar/i_got_love.jpeg" alt="">
-    Avatar - {{ profile.avatar }}<br>
+    <img class="user-profile-img" src="{{ profile.avatar.url }}" alt=""><br>
     {% endif %}
 
     {% if profile.phone_number %}
@@ -53,6 +51,5 @@
     twitter - {{ profile.twitter }}<br>
     {% endif %}
 </form>
-<img src="/media/users_avatar/i_got_love.jpeg" alt="">
 
 {% endblock user_profile %}

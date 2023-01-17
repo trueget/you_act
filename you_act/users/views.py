@@ -12,6 +12,11 @@ from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.shortcuts import get_object_or_404
 
+
+from rest_framework.parsers import JSONParser
+
+
+
 # Create your views here.
 
 def index(request):
@@ -28,11 +33,19 @@ class UserRegisterViews(generics.CreateAPIView):
 class MyProfileDetail(APIView):
     '''обновление страницы пользователя и вывод данных в свой шаблон'''
     renderer_classes = [TemplateHTMLRenderer]
+
+
+    # parser_classes = [FileUploadParser]
+    parser_classes = [JSONParser]
+
+
     template_name = 'my_profile.html'
 
     def get(self, request):
         profile = get_object_or_404(UserProfile, user=request.user)
         serializer = UserProfileSerializer(profile)
+        print('='*50)
+        print(profile.avatar)
         return Response({'serializer': serializer, 'profile': profile})
 
     def post(self, request):
@@ -53,7 +66,7 @@ class ProfileList(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'profile_list.html'
 
-    def get(self):
+    def get(self, request):
         queryset = UserProfile.objects.all()
         return Response({'profiles': queryset})
 
@@ -63,7 +76,7 @@ class ProfileDetail(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'user_profile.html'
 
-    def get(self, pk):
+    def get(self, request, pk):
         profile = get_object_or_404(UserProfile, pk=pk)
         serializer = UserProfileSerializer(profile)
         return Response({'serializer': serializer, 'profile': profile})
