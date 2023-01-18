@@ -27,9 +27,9 @@ class Column(models.Model):
     name_column = models.CharField(max_length=255)
     date_create = models.DateTimeField(auto_now_add=True, editable=False)
 
-    class Meta:
-        verbose_name = 'Колонка'
-        verbose_name_plural = 'Колонки'
+    # class Meta:
+    #     verbose_name = 'Колонка'
+    #     verbose_name_plural = 'Колонки'
 
 
 class Tasks(models.Model):
@@ -37,6 +37,6 @@ class Tasks(models.Model):
     description = models.TextField(blank=True, null=True)
     column = models.ForeignKey(Column, related_name='tasks', on_delete=models.PROTECT)
 
-    class Meta:
-        verbose_name = 'Задача'
-        verbose_name_plural = 'Задачи'
+    # class Meta:
+    #     verbose_name = 'Задача'
+    #     verbose_name_plural = 'Задачи'
