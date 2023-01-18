@@ -1,8 +1,6 @@
 from django.db import models
-# from django.contrib.auth.models import AbstractUser
 
 from django.contrib.auth.models import User
-# from djoser.urls.base import User
 
 
 # Create your models here.
@@ -22,8 +20,8 @@ class UserProfile(models.Model):
     inst = models.CharField(max_length=500, blank=True, null=True)
     git = models.CharField(max_length=500, blank=True, null=True)
     twitter = models.CharField(max_length=500, blank=True, null=True)
-    # first_name = models.CharField(max_length=100, blank=True, null=True)
-    # last_name = models.CharField(max_length=100, blank=True, null=True)
+    first_name = models.CharField(max_length=100, blank=True, null=True)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
 
 
     def __str__(self):
