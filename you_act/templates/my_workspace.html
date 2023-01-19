@@ -3,4 +3,12 @@
 
 {% block title %}мои доски{% endblock title %}
 
-{% block my_workspace %}{% endblock my_workspace %}
+{% block my_workspace %}
+    <h1>Profile - {{ board.owner }}</h1>
+
+    <form action="{% url 'tasks:my-workspace' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% render_form serializer %}
+        <input type="submit" value="сохранить">
+    </form>
+{% endblock my_workspace %}
