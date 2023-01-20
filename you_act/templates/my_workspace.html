@@ -4,9 +4,19 @@
 {% block title %}мои доски{% endblock title %}
 
 {% block my_workspace %}
-    <h1>Profile - {{ board.owner }}</h1>
 
-    <form action="{% url 'tasks:my-workspace' %}" method="POST" enctype="multipart/form-data">
+    {% for board in all_boards %}
+    <p>создатель - {{ board.owner }}</p><br>
+    <p>имя доски - {{ board.name_board }}</p><br>
+    <p>дата создания - {{ board.date_create }}</p><br>
+    <p>участники - {{ board.members }}</p>
+    {% endfor %}
+
+    <h1>Profile - {{ request.user }}</h1>
+    <br><br><br>
+    <h1>FORM</h1><br>
+
+    <form action="{% url 'tasks:my-workspace' %}" method="POST">
         {% csrf_token %}
         {% render_form serializer %}
         <input type="submit" value="сохранить">
