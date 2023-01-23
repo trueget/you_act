@@ -18,7 +18,7 @@ class Board(models.Model):
         ordering = ['-date_create']
 
     def __str__(self):
-        return self.name
+        return self.name_board
 
 
 class Column(models.Model):
