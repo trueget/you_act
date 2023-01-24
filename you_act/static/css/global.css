@@ -19,7 +19,8 @@ time, mark, audio, video {
     vertical-align: baseline;
 }
 a{
-    color: #fff;
+    /* color: #fff; */
+    color: #000;
     text-decoration: none;
 }
 a:hover{

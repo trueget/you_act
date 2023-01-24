@@ -13,5 +13,5 @@ app_name = 'tasks'
 
 urlpatterns = [
     # path('', include(router.urls)),
-    path('my_workspace/', BoardDetailView.as_view(), name='my-workspace')
+    path('my_boards/', BoardDetailView.as_view(), name='my-boards')
 ]

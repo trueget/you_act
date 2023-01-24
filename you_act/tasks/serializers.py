@@ -10,19 +10,9 @@ class BoardSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     name_board = serializers.CharField(max_length=100, default='My project')
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
-    # def _user(self, obj):
-    #     request = self.context.get('request', None)
-    #     if request:
-    #         return request.user
+    # def perform_create(self, serializer):
+    #     serializer.save(owner=self.request.user)
 
     class Meta:
         model = Board
         fields = '__all__'
-        # fields = ('id', 'name_board', 'members')
-
-    # def save(self):
-    #     owner = User.objects.get(pk=self.validated_data['user.id'])
-    #     return owner

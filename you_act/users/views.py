@@ -28,7 +28,7 @@ class UserRegisterViews(generics.CreateAPIView):
 class MyProfileDetail(APIView):
     '''обновление страницы пользователя и вывод данных в свой шаблон'''
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'my_profile.html'
+    template_name = 'users/my_profile.html'
 
     def get(self, request):
         profile = get_object_or_404(UserProfile, user=request.user)
@@ -47,7 +47,7 @@ class MyProfileDetail(APIView):
 class ProfileList(APIView):
     '''список пользователей'''
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'profile_list.html'
+    template_name = 'users/profile_list.html'
 
     def get(self, request):
         queryset = UserProfile.objects.all()
@@ -57,7 +57,7 @@ class ProfileList(APIView):
 class ProfileDetail(APIView):
     '''информация о пользователе'''
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'user_profile.html'
+    template_name = 'users/user_profile.html'
 
     def get(self, request, pk,):
         profile = get_object_or_404(UserProfile, pk=pk)

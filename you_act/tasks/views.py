@@ -16,7 +16,7 @@ from rest_framework import viewsets
 class BoardDetailView(APIView):
     ''''''
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'my_workspace.html'
+    template_name = 'tasks/my_boards.html'
 
     def get(self, request):
         board = Board.objects.filter(owner=request.user)
