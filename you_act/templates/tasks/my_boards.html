@@ -4,37 +4,43 @@
 {% block title %}мои доски{% endblock title %}
 
 {% block my_workspace %}
-<table>
-    <tr>
-        <th>id</th>
-        <th>имя доски</th>
-        <th>создатель</th>
-        <th>дата создания</th>
-        <th>участники</th>
-    </tr>
+    {% if all_boards %}
+        <table>
+            <tr>
+                <th>id</th>
+                <th>имя доски</th>
+                <th>создатель</th>
+                <th>дата создания</th>
+                <th>участники</th>
+            </tr>
 
+            {% for board in all_boards %}
 
-    {% for board in all_boards %}
+                <tr>
+                    <td>{{ board.id }}</td>
+                    <td><a href="{% url 'tasks:my-board' pk=board.id %}">{{ board.name_board }}</a></td>
+                    <td>{{ board.owner }}</td>
+                    <td>{{ board.date_create }}</td>
+                    <td>
+                        {% for member in board.members.all %}
+                        {{ member.username }}
+                        {% endfor %}
 
-    
-        <tr>
-            <td>{{ board.id }}</td>
-            <td><a href="{% url 'tasks:my-column' pk=board.id %}">{{ board.name_board }}</a></td>
-            <td>{{ board.owner }}</td>
-            <td>{{ board.date_create }}</td>
-            <td>{{ board.members }}</td>
-        </tr>
-    </a>
-    {% endfor %}
-
-</table>
+                    </td>
+                </tr>
+            </a>
+            {% endfor %}
+        </table>
+    {% else %}
+    <p>Созданых досок пока нет</p>
+    {% endif %}
 <br><br>
     <h1>Profile - {{ request.user }}</h1>
     <br>
     <h1>FORM</h1><br>
     <h1>Создать свою доску</h1><br><br>
 
-    <form action="{% url 'tasks:my-boards' %}" method="POST">
+    <form method="POST">
         {% csrf_token %}
         {% render_form serializer %}
         <input type="submit" value="сохранить">

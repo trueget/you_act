@@ -14,5 +14,5 @@ app_name = 'tasks'
 urlpatterns = [
     # path('', include(router.urls)),
     path('my-boards/', BoardDetailView.as_view(), name='my-boards'),
-    path('my-column/<int:pk>/', ColumnDetailView.as_view(), name='my-column'),
+    path('my-board/<int:pk>/', ColumnDetailView.as_view(), name='my-board'),
 ]

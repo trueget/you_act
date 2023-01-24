@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 from tasks.models import Board, Column
 from tasks.serializers import BoardSerializer, ColumnSerializer
+from django.urls import reverse
+
 
 # Create your views here.
 
@@ -22,14 +23,8 @@ class BoardDetailView(APIView):
         serializer = BoardSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(owner=self.request.user)
-            return redirect('/')
+            return redirect('tasks:my-boards')
         return Response(serializer)
-
-# class BoardDetailView(viewsets.ModelViewSet):
-#     queryset = Board.objects.all()
-#     serializer_class = BoardSerializer
-#     permission_classes = [permissions.IsAuthenticated]
-
 
 
 class ColumnDetailView(APIView):
@@ -41,4 +36,12 @@ class ColumnDetailView(APIView):
         board = Board.objects.get(pk=pk)
         column = Column.objects.filter(board=board)
         serializer = ColumnSerializer(column)
-        return Response({'serializer': serializer, 'columns': column})
+        return Response({'serializer': serializer, 'columns': column, 'board': board})
+
+    def post(self, request, pk):
+        board = Board.objects.get(pk=pk)
+        serializer = ColumnSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(board=board)
+            return redirect(reverse('tasks:my-board', args=[pk]))
+        return Response(serializer)
