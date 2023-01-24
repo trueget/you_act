@@ -6,11 +6,17 @@ from django.contrib.auth.models import User
 
 
 class BoardSerializer(serializers.ModelSerializer):
-    # owner = UserSerializer(many=False)
-    # owner = UserSerializer(read_only=True, many=False, default=serializers.CurrentUserDefault())
-    # owner = UserSerializer(read_only=True, many=False, default=CurrentUserDefault())
-    owner = serializers.SlugRelatedField(write_only=True, slug_field='pk', queryset=User.objects)
+    # owner = serializers.SlugRelatedField(write_only=True, slug_field='pk', queryset=User.objects)
+    owner = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     name_board = serializers.CharField(max_length=100, default='My project')
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    # def _user(self, obj):
+    #     request = self.context.get('request', None)
+    #     if request:
+    #         return request.user
 
     class Meta:
         model = Board
@@ -18,6 +24,5 @@ class BoardSerializer(serializers.ModelSerializer):
         # fields = ('id', 'name_board', 'members')
 
     # def save(self):
-    #     owner = CurrentUserDefault()
-    #     name_board = self.validated_data['name_board']
-    #     members = self.validated_data['members']
+    #     owner = User.objects.get(pk=self.validated_data['user.id'])
+    #     return owner

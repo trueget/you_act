@@ -26,9 +26,8 @@ class BoardDetailView(APIView):
     def post(self, request):
         serializer = BoardSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(owner=self.request.user)
             return redirect('/')
-
         return Response(serializer)
 
 

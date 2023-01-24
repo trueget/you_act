@@ -4,17 +4,26 @@
 {% block title %}мои доски{% endblock title %}
 
 {% block my_workspace %}
+<table>
+    <tr>
+        <th>id</th><th>создатель</th><th>дата создания</th><th>участники</th>
+    </tr>
+
 
     {% for board in all_boards %}
-    <p>создатель - {{ board.owner }}</p><br>
-    <p>имя доски - {{ board.name_board }}</p><br>
-    <p>дата создания - {{ board.date_create }}</p><br>
-    <p>участники - {{ board.members }}</p>
+    <tr>
+        <td>{{ board.id }}</td>
+        <td>{{ board.owner }}</td>
+        <td>{{ board.date_create }}</td>
+        <td>{{ board.members }}</td>
+    </tr>
     {% endfor %}
+</table>
 
     <h1>Profile - {{ request.user }}</h1>
     <br><br><br>
     <h1>FORM</h1><br>
+    <h1>Создать свою доску</h1><br><br>
 
     <form action="{% url 'tasks:my-workspace' %}" method="POST">
         {% csrf_token %}
