@@ -19,7 +19,7 @@
     
         <tr>
             <td>{{ board.id }}</td>
-            <td><a href="/">{{ board.name_board }}</a></td>
+            <td><a href="{% url 'tasks:my-column' pk=board.id %}">{{ board.name_board }}</a></td>
             <td>{{ board.owner }}</td>
             <td>{{ board.date_create }}</td>
             <td>{{ board.members }}</td>

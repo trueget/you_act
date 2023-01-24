@@ -1,5 +1,5 @@
 from django.urls import path, include
-from tasks.views import BoardDetailView
+from tasks.views import BoardDetailView, ColumnDetailView
 
 from rest_framework import routers
 
@@ -13,5 +13,6 @@ app_name = 'tasks'
 
 urlpatterns = [
     # path('', include(router.urls)),
-    path('my_boards/', BoardDetailView.as_view(), name='my-boards')
+    path('my-boards/', BoardDetailView.as_view(), name='my-boards'),
+    path('my-column/<int:pk>/', ColumnDetailView.as_view(), name='my-column'),
 ]

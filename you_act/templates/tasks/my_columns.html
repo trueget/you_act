@@ -4,6 +4,17 @@
 {% block title %}мои колонки{% endblock title %}
 
 {% block my_workspace %}
-
+    {% if columns %}
+        {% for column in columns %}
+            <div class="column">
+                <p>{{ column.board }}</p>
+                <p>{{ column.name_column }}</p>
+                <p>{{ column.date_create }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+    <br><br>
+        <p>на этой доске пока нет колонок!</p>
+    {% endif %}
 
 {% endblock my_workspace %}
