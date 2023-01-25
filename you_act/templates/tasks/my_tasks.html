@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 {% load rest_framework %}
 
-{% block title %}мои колонки{% endblock title %}
+{% block title %}мои задачи{% endblock title %}
 
 {% block my_workspace %}
-    {% if columns %}
-        {% for column in columns %}
+    {% if tasks_in_column %}
+        {% for task in tasks_in_column %}
             <div class="column">
-                <p>{{ column.board }}</p>
-                <td><a href="{% url 'tasks:my-column' pk=column.id %}">{{ column.name_column }}</a></td>
-                <p>{{ column.id }}</p>
-                <p>{{ column.date_create }}</p>
+                <p>{{ task.tittle }}</p>
+                <p>{{ task.id }}</p>
+                <td>{{ task.description }}</td>
+                <p>{{ task.column }}</p>
             </div>
             <br><br><br>
         {% endfor %}
     {% else %}
     <br><br>
-        <p>на этой доске пока нет колонок!</p>
+        <p>в этой колонке пока нет задач!</p>
     {% endif %}
 
 <br><br>
@@ -30,5 +30,4 @@
     {% render_form serializer %}
     <input type="submit" value="сохранить">
 </form>
-
 {% endblock my_workspace %}

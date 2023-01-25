@@ -36,6 +36,7 @@ class Tasks(models.Model):
     tittle = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     column = models.ForeignKey(Column, related_name='tasks', on_delete=models.PROTECT)
+    # date_create = models.DateTimeField(auto_now_add=True, editable=False)
 
     # class Meta:
     #     verbose_name = 'Задача'
