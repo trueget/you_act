@@ -48,7 +48,7 @@ class ColumnDetailView(APIView):
 
 
 class TaskDetailView(APIView):
-    ''''''
+    '''колонка тасок и форма создания тасок'''
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'tasks/my_tasks.html'
 
