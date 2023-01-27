@@ -11,6 +11,7 @@
                 <p>{{ task.id }}</p>
                 <td>{{ task.description }}</td>
                 <p>{{ task.column }}</p>
+                <a href="{% url 'tasks:delete-task' task.id %}">удалить таску</a>
             </div>
             <br><br><br>
         {% endfor %}

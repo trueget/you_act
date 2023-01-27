@@ -14,7 +14,6 @@ from django.http.response import JsonResponse
 from rest_framework import status
 
 
-
 # Create your views here.
 
 class BoardDetailView(APIView):
@@ -74,25 +73,24 @@ class TaskDetailView(APIView):
             return redirect(reverse('tasks:my-column', args=[pk]))
         return Response(serializer)
 
-    # def delete(self, request, pk):
-    #     column = Column.objects.get(pk=pk)
-    #     board = Board.objects.get(pk=column.board.id)
-    #     column.delete()
-    #     return redirect(reverse('tasks:my-board', args=[board.id]))
-        # return redirect('/')
-        # return redirect('my_column')
-
-
-# class DeleteColumn(APIView):
-
-#     def delete(self, request, pk):
-#         column = Column.objects.get(pk=pk)
-#         column.delete()
-
 
 # @api_view(['PUT', 'DELETE'])
+def delete_board(request, pk):
+    board = Board.objects.get(pk=pk)
+    board.delete()
+    return redirect('tasks:my-boards')
+
+
 def delete_column(request, pk):
     column = Column.objects.get(pk=pk)
     board = Board.objects.get(pk=column.board.id)
     column.delete()
     return redirect(reverse('tasks:my-board', args=[board.id]))
+
+
+def delete_task(request, pk):
+    task = Tasks.objects.get(pk=pk)
+    colum = Column.objects.get(pk=task.column.id)
+    task.delete()
+    pk = colum.id
+    return redirect(reverse('tasks:my-column', args=[pk]))

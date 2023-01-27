@@ -12,6 +12,7 @@
                 <th>создатель</th>
                 <th>дата создания</th>
                 <th>участники</th>
+                <th>управление</th>
             </tr>
 
             {% for board in all_boards %}
@@ -27,6 +28,7 @@
                         {% endfor %}
 
                     </td>
+                    <td><a href="{% url 'tasks:delete-board' board.id %}">удалить</a></td>
                 </tr>
             </a>
             {% endfor %}
