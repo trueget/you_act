@@ -4,7 +4,7 @@ from tasks.models import Board, Column, Tasks
 
 class BoardSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    name_board = serializers.CharField(max_length=100, default='New project')
+    name_board = serializers.CharField(max_length=100, default='New board')
 
     class Meta:
         model = Board

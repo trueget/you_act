@@ -11,6 +11,7 @@
                 <td><a href="{% url 'tasks:my-column' pk=column.id %}">{{ column.name_column }}</a></td>
                 <p>{{ column.id }}</p>
                 <p>{{ column.date_create }}</p>
+                <a href="{% url 'tasks:delete-column' column.id %}" method="DELETE">удалить колонку</a>
             </div>
             <br><br><br>
         {% endfor %}

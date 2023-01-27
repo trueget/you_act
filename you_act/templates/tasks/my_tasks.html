@@ -25,7 +25,7 @@
 <p>Вывод формы</p>
 <br>
 
-<form  method="POST">
+<form  method="post">
     {% csrf_token %}
     {% render_form serializer %}
     <input type="submit" value="сохранить">

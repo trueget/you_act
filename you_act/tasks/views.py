@@ -1,10 +1,18 @@
 from django.shortcuts import render, redirect
+
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
 from tasks.models import Board, Column, Tasks
 from tasks.serializers import BoardSerializer, ColumnSerializer, TaskSerializer
+
 from django.urls import reverse
+
+from django.http.response import JsonResponse
+from rest_framework import status
+
 
 
 # Create your views here.
@@ -65,3 +73,26 @@ class TaskDetailView(APIView):
             serializer.save(column=column)
             return redirect(reverse('tasks:my-column', args=[pk]))
         return Response(serializer)
+
+    # def delete(self, request, pk):
+    #     column = Column.objects.get(pk=pk)
+    #     board = Board.objects.get(pk=column.board.id)
+    #     column.delete()
+    #     return redirect(reverse('tasks:my-board', args=[board.id]))
+        # return redirect('/')
+        # return redirect('my_column')
+
+
+# class DeleteColumn(APIView):
+
+#     def delete(self, request, pk):
+#         column = Column.objects.get(pk=pk)
+#         column.delete()
+
+
+# @api_view(['PUT', 'DELETE'])
+def delete_column(request, pk):
+    column = Column.objects.get(pk=pk)
+    board = Board.objects.get(pk=column.board.id)
+    column.delete()
+    return redirect(reverse('tasks:my-board', args=[board.id]))
