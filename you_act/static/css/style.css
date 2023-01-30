@@ -66,3 +66,10 @@ div>a, .h1-container{
 .user-profile-img{
     width: 200px;
 }
+
+.column{
+    margin-left: 100px;
+    width: 300px;
+    border: #000 solid 1px;
+    padding: 20px;
+}

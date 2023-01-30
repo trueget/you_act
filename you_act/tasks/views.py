@@ -43,7 +43,13 @@ class ColumnDetailView(APIView):
         board = Board.objects.get(pk=pk)
         columns = Column.objects.filter(board=board)
         serializer = ColumnSerializer(columns)
-        return Response({'serializer': serializer, 'columns': columns, 'board': board})
+
+        all_tasks_on_board = []
+        for column in columns:
+            tasks_in_column = Tasks.objects.filter(column=column)
+            all_tasks_on_board.append(tasks_in_column)
+
+        return Response({'serializer': serializer, 'columns': columns, 'board': board, 'all_tasks_on_board': all_tasks_on_board})
 
     def post(self, request, pk):
         board = Board.objects.get(pk=pk)
@@ -54,24 +60,24 @@ class ColumnDetailView(APIView):
         return Response(serializer)
 
 
-class TaskDetailView(APIView):
-    '''колонка тасок и форма создания тасок'''
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'tasks/my_tasks.html'
+# class TaskDetailView(APIView):
+#     '''колонка тасок и форма создания тасок'''
+#     renderer_classes = [TemplateHTMLRenderer]
+#     template_name = 'tasks/my_tasks.html'
 
-    def get(self, request, pk):
-        column = Column.objects.get(pk=pk)
-        tasks_in_column = Tasks.objects.filter(column=column)
-        serializer = TaskSerializer(tasks_in_column)
-        return Response({'serializer': serializer, 'tasks_in_column': tasks_in_column, 'column': column})
+#     def get(self, request, pk):
+#         column = Column.objects.get(pk=pk)
+#         tasks_in_column = Tasks.objects.filter(column=column)
+#         serializer = TaskSerializer(tasks_in_column)
+#         return Response({'serializer': serializer, 'tasks_in_column': tasks_in_column, 'column': column})
 
-    def post(self, request, pk):
-        column = Column.objects.get(pk=pk)
-        serializer = TaskSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(column=column)
-            return redirect(reverse('tasks:my-column', args=[pk]))
-        return Response(serializer)
+#     def post(self, request, pk):
+#         column = Column.objects.get(pk=pk)
+#         serializer = TaskSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save(column=column)
+#             return redirect(reverse('tasks:my-column', args=[pk]))
+#         return Response(serializer)
 
 
 # @api_view(['PUT', 'DELETE'])
@@ -83,14 +89,11 @@ def delete_board(request, pk):
 
 def delete_column(request, pk):
     column = Column.objects.get(pk=pk)
-    board = Board.objects.get(pk=column.board.id)
     column.delete()
-    return redirect(reverse('tasks:my-board', args=[board.id]))
+    return redirect(reverse('tasks:my-board', args=[column.board.id]))
 
 
 def delete_task(request, pk):
     task = Tasks.objects.get(pk=pk)
-    colum = Column.objects.get(pk=task.column.id)
     task.delete()
-    pk = colum.id
-    return redirect(reverse('tasks:my-column', args=[pk]))
+    return redirect(reverse('tasks:my-board', args=[task.column.board.id]))
