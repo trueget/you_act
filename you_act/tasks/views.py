@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from rest_framework.views import APIView
-from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.renderers import TemplateHTMLRenderer, HTMLFormRenderer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -12,6 +12,8 @@ from django.urls import reverse
 
 from django.http.response import JsonResponse
 from rest_framework import status
+
+from tasks.forms import TasksForm
 
 
 # Create your views here.
@@ -36,7 +38,7 @@ class BoardDetailView(APIView):
 
 class ColumnDetailView(APIView):
     '''колонки доски и форма создания колонки'''
-    renderer_classes = [TemplateHTMLRenderer]
+    renderer_classes = [TemplateHTMLRenderer, HTMLFormRenderer]
     template_name = 'tasks/my_columns.html'
 
     def get(self, request, pk):
@@ -60,24 +62,24 @@ class ColumnDetailView(APIView):
         return Response(serializer)
 
 
-# class TaskDetailView(APIView):
-#     '''колонка тасок и форма создания тасок'''
-#     renderer_classes = [TemplateHTMLRenderer]
-#     template_name = 'tasks/my_tasks.html'
+class TaskDetailView(APIView):
+    '''колонка тасок и форма создания тасок'''
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'tasks/my_tasks.html'
 
-#     def get(self, request, pk):
-#         column = Column.objects.get(pk=pk)
-#         tasks_in_column = Tasks.objects.filter(column=column)
-#         serializer = TaskSerializer(tasks_in_column)
-#         return Response({'serializer': serializer, 'tasks_in_column': tasks_in_column, 'column': column})
+    def get(self, request, pk):
+        column = Column.objects.get(pk=pk)
+        tasks_in_column = Tasks.objects.filter(column=column)
+        serializer = TaskSerializer(tasks_in_column)
+        return Response({'serializer': serializer, 'tasks_in_column': tasks_in_column, 'column': column})
 
-#     def post(self, request, pk):
-#         column = Column.objects.get(pk=pk)
-#         serializer = TaskSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save(column=column)
-#             return redirect(reverse('tasks:my-column', args=[pk]))
-#         return Response(serializer)
+    def post(self, request, pk):
+        column = Column.objects.get(pk=pk)
+        serializer = TaskSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(column=column)
+            return redirect(reverse('tasks:my-column', args=[pk]))
+        return Response(serializer)
 
 
 # @api_view(['PUT', 'DELETE'])
@@ -97,3 +99,25 @@ def delete_task(request, pk):
     task = Tasks.objects.get(pk=pk)
     task.delete()
     return redirect(reverse('tasks:my-board', args=[task.column.board.id]))
+
+
+
+
+
+def create_task(request, pk):
+    print('-'*50)
+    print(pk)
+    if request.method == 'POST' and 'task-form' in request.POST:
+        form = TasksForm(request.POST)
+        if form.is_valid():
+            print('-'*50)
+            print('валидна форма')
+            print(form)
+            return redirect('/')
+        else:
+            print('-'*50)
+            print('не валидна форма')
+            return render(request, 'tasks/my_columns.html', {'form': form})
+    else:
+        form = TasksForm()
+        return render(request, 'tasks/my_columns.html', {'form': form})

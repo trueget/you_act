@@ -9,7 +9,6 @@
         {% for column in columns %}
             <div class="column">
                 <p>{{ column.board }}</p>
-                <td>{{ column.name_column }}</td>
                 <p>{{ column.id }}</p>
                 <p>{{ column.date_create }}</p>
                 <a href="{% url 'tasks:delete-column' column.id %}">удалить колонку</a>
@@ -30,14 +29,26 @@
     <br><br>
         {% for column in all_tasks_on_board %}
             <div class="column">
-                {% for task in column %}
-                    <p>{{ task.tittle }}</p>
-                    <p>{{ task.id }}</p>
-                    <td>{{ task.description }}</td>
-                    <p>{{ task.column }}</p>
-                    <a href="{% url 'tasks:delete-task' task.id %}">удалить таску</a>
-                    <br><br><br>
-                {% endfor %}
+                {% if column %}
+                    {% for task in column %}
+                        <p>{{ task.tittle }}</p>
+                        <p>{{ task.id }}</p>
+                        <td>{{ task.description }}</td>
+                        <p>{{ task.column }}</p>
+                        <a href="{% url 'tasks:delete-task' task.id %}">удалить таску</a>
+                        <br><br><br>
+                    {% endfor %}
+                {% else %}
+                    <p>на этой доске пока нет колонок!</p>
+                {% endif %}
+                <br>
+                <p>form</p>
+                <form action="{% url 'create-task' column.id %}" method="post" name="task-form">
+                    {% csrf_token %}
+                        {{ form }}
+                    <input type="submit" value="сохранить задачу">
+                </form>
+                
             </div>
             <br><br>
         {% endfor %}
@@ -49,10 +60,14 @@
 <p>Вывод формы</p>
 <br>
 
-<form  method="POST">
-    {% csrf_token %}
-    {% render_form serializer %}
-    <input type="submit" value="сохранить">
-</form>
+<div class="form">
+    <form  method="POST">
+        {% csrf_token %}
+        {% render_form serializer %}
+        <input type="submit" value="сохранить колонку">
+    </form>
+</div>
+<br>
+
 
 {% endblock my_workspace %}
