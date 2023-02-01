@@ -101,13 +101,10 @@ def delete_task(request, pk):
     return redirect(reverse('tasks:my-board', args=[task.column.board.id]))
 
 
-
-
-
 def create_task(request, pk):
     print('-'*50)
     print(pk)
-    if request.method == 'POST' and 'task-form' in request.POST:
+    if request.method == 'POST':
         form = TasksForm(request.POST)
         if form.is_valid():
             print('-'*50)

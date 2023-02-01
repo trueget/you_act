@@ -13,8 +13,8 @@ class BoardSerializer(serializers.ModelSerializer):
 
 class ColumnSerializer(serializers.ModelSerializer):
     name_column = serializers.CharField(max_length=100, default='New column')
-    # board = BoardSerializer()
     board = serializers.PrimaryKeyRelatedField(read_only=True)
+    # board = BoardSerializer()
 
     class Meta:
         model = Column
@@ -23,9 +23,8 @@ class ColumnSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
     tittle = serializers.CharField(max_length=100, default='New task')
-    # column = ColumnSerializer()
     column = serializers.PrimaryKeyRelatedField(read_only=True)
-
+    # column = ColumnSerializer()
 
     class Meta:
         model = Tasks

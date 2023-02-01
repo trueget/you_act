@@ -68,6 +68,8 @@ div>a, .h1-container{
 }
 
 .column{
+    /* max-height: 200px;
+    overflow: scroll; */
     margin-left: 100px;
     width: 300px;
     border: #000 solid 1px;

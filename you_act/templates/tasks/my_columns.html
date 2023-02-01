@@ -30,6 +30,8 @@
         {% for column in all_tasks_on_board %}
             <div class="column">
                 {% if column %}
+                <p>{{ column.0.column.id}} - id column</p>
+                
                     {% for task in column %}
                         <p>{{ task.tittle }}</p>
                         <p>{{ task.id }}</p>
@@ -43,7 +45,7 @@
                 {% endif %}
                 <br>
                 <p>form</p>
-                <form action="{% url 'create-task' column.id %}" method="post" name="task-form">
+                <form action="{% url 'tasks:create-task' column.0.column.id %}" method="POST">
                     {% csrf_token %}
                         {{ form }}
                     <input type="submit" value="сохранить задачу">
@@ -68,6 +70,5 @@
     </form>
 </div>
 <br>
-
 
 {% endblock my_workspace %}
