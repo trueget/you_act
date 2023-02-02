@@ -6,7 +6,8 @@ from tasks.views import (
     delete_board,
     delete_column,
     delete_task,
-    create_task,
+    # create_task,
+    ColumnAndTaskManagement
 )
 
 app_name = 'tasks'
@@ -14,7 +15,10 @@ app_name = 'tasks'
 
 urlpatterns = [
     path('my-boards/', BoardDetailView.as_view(), name='my-boards'),
-    path('my-board/<int:pk>/', ColumnDetailView.as_view(), name='my-board'),
+
+    # path('my-board/<int:pk>/', ColumnDetailView.as_view(), name='my-board'),
+    path('my-board/<int:pk>/', ColumnAndTaskManagement.as_view(), name='my-board'),
+
     path('delete-board/<int:pk>/', delete_board, name='delete-board'),
 
     path('my-column/<int:pk>/', TaskDetailView.as_view(), name='my-column'),
@@ -22,5 +26,5 @@ urlpatterns = [
 
     path('delete-task/<int:pk>/', delete_task, name='delete-task'),
 
-    path('create-task-in-column/<int:pk>/', create_task, name='create-task'),
+    # path('create-task-in-column/<int:pk>/', create_task, name='create-task'),
 ]

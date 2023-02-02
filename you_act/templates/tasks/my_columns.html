@@ -45,10 +45,10 @@
                 {% endif %}
                 <br>
                 <p>form</p>
-                <form action="{% url 'tasks:create-task' column.0.column.id %}" method="POST">
+                <form method="POST">
                     {% csrf_token %}
-                        {{ form }}
-                    <input type="submit" value="сохранить задачу">
+                        {{ task_form }}
+                    <input type="submit" name="save-task" value="сохранить задачу">
                 </form>
                 
             </div>
@@ -59,14 +59,14 @@
 
 <p>Form</p>
 <br>
-<p>Вывод формы</p>
+<p>Вывод формы {{obj}}</p>
 <br>
 
 <div class="form">
     <form  method="POST">
         {% csrf_token %}
-        {% render_form serializer %}
-        <input type="submit" value="сохранить колонку">
+        {{ column_form }}
+        <input type="submit" name="save-column" value="сохранить колонку">
     </form>
 </div>
 <br>
