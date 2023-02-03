@@ -29,7 +29,7 @@ class BoardDetailView(APIView):
     def get(self, request):
         board = Board.objects.filter(owner=request.user)
         serializer = BoardSerializer(board)
-        return Response({'serializer': serializer, 'all_boards': board})
+        return Response({'serializer': serializer, 'all_boards': board, 'column_id': -1})
 
     def post(self, request):
         serializer = BoardSerializer(data=request.data)
@@ -104,23 +104,47 @@ def delete_task(request, pk):
     return redirect(reverse('tasks:my-board', args=[task.column.board.id]))
 
 
-# def create_task(request, pk):
+
+
+
+def create_task(request, pk):
+    print('-'*50)
+    print(pk)
+
+    if request.method == 'POST':
+        if  'task-form' in request.POST:
+            form = TasksForm(request.POST)
+            if form.is_valid():
+                print('-'*50)
+                print('TASK валидна форма')
+                print(form)
+                return redirect('/')
+            else:
+                print('-'*50)
+                print('не валидна форма')
+                return render(request, 'tasks/my_columns.html', {'form': form})
+    else:
+        form = TasksForm()
+        return render(request, 'tasks/my_columns.html', {'form': form})
+
+# if  'task-form' in request.POST:
 #     print('-'*50)
-#     print(pk)
-#     if request.method == 'POST':
-#         form = TasksForm(request.POST)
-#         if form.is_valid():
-#             print('-'*50)
-#             print('валидна форма')
-#             print(form)
-#             return redirect('/')
-#         else:
-#             print('-'*50)
-#             print('не валидна форма')
-#             return render(request, 'tasks/my_columns.html', {'form': form})
-#     else:
-#         form = TasksForm()
-#         return render(request, 'tasks/my_columns.html', {'form': form})
+#     print('task-form')
+#     # column = Column.objects.get(pk=pk)
+#     form = TasksForm(self.request.POST)
+#     if form.is_valid():
+#         print('-'*50)
+#         print('форма задачи валидна')
+#         tittle = form.cleaned_data['tittle']
+#         print('-'*50)
+#         print(pk)
+#         print('ИМЯ_____', tittle)
+#         # new_task = Tasks(tittle=tittle, column=id_column)
+#         # new_task.save()
+#         return redirect(reverse('tasks:my-board', args=[pk, id_column]))
+
+
+
 
 
 class ColumnAndTaskManagement(View):
@@ -128,9 +152,6 @@ class ColumnAndTaskManagement(View):
     template_name = 'tasks/my_columns.html'
     column_form = ColumnForm
     task_form = TasksForm
-
-    # model = Board
-    # context_object_name = 'obj'
 
     def get(self, request, pk):
         form1 = self.column_form(None)
@@ -149,8 +170,8 @@ class ColumnAndTaskManagement(View):
             'columns': columns,
             'all_tasks_on_board': all_tasks_on_board,
             }
-
         return render(request, self.template_name, context)
+        # redirect(reverse('tasks:my-board', args=[pk]))
 
     def post(self, request, pk):
         print('-'*50)
@@ -158,15 +179,38 @@ class ColumnAndTaskManagement(View):
         if request.method=='POST':
             print('-'*50)
             print('метод ПОСТ')
-            if 'column_form' in request.POST:
+            if 'column-form' in request.POST:
                 print('-'*50)
                 print('column-form')
-            ## do what ever you want to do for first function ####
-            if  'task_form' in request.POST:
-                print('-'*50)
-                print('task-form')
-                ## do what ever you want to do for second function ####
-            ## return def post###  
+                board = Board.objects.get(pk=pk)
+                form = ColumnForm(self.request.POST)
+                if form.is_valid():
+                    print('-'*50)
+                    print('форма колонки валидна')
+                    name_column = form.cleaned_data['name_column']
+                    print('-'*50)
+                    print(pk)
+                    print('ИМЯ____', name_column)
+
+                    # new_column = Column(name_column=name_column, board=board)
+                    # new_column.save()
+                    return redirect(reverse('tasks:my-board', args=[pk]))
+            # if  'task-form' in request.POST:
+            #     print('-'*50)
+            #     print('task-form')
+            #     # column = Column.objects.get(pk=pk)
+            #     form = TasksForm(self.request.POST)
+            #     if form.is_valid():
+            #         print('-'*50)
+            #         print('форма задачи валидна')
+            #         tittle = form.cleaned_data['tittle']
+            #         print('-'*50)
+            #         print(pk)
+            #         print('ИМЯ_____', tittle)
+            #         # new_task = Tasks(tittle=tittle, column=id_column)
+            #         # new_task.save()
+            #         return redirect(reverse('tasks:my-board', args=[pk]))
+
         return render(request, self.template_name, {'column-form':self.column_form, 'task-form': self.task_form})
 
 

@@ -20,8 +20,6 @@
         <p>на этой доске пока нет колонок!</p>
     {% endif %}
 
-
-
     <br><br><br><br>
 
     <p>все таски одной доски</p>
@@ -30,7 +28,7 @@
         {% for column in all_tasks_on_board %}
             <div class="column">
                 {% if column %}
-                <p>{{ column.0.column.id}} - id column</p>
+                <p>{{ column.0.column.id }} - id column</p>
                 
                     {% for task in column %}
                         <p>{{ task.tittle }}</p>
@@ -44,11 +42,10 @@
                     <p>на этой доске пока нет колонок!</p>
                 {% endif %}
                 <br>
-                <p>form</p>
-                <form method="POST">
+                <form method="POST" action="{% url 'tasks:create-task' pk=column.0.column.id %}">
                     {% csrf_token %}
                         {{ task_form }}
-                    <input type="submit" name="save-task" value="сохранить задачу">
+                    <input type="submit"  name="task-form" value="сохранить задачу">
                 </form>
                 
             </div>
@@ -57,16 +54,14 @@
 
 <br><br>
 
-<p>Form</p>
+<p>column Form</p>
 <br>
-<p>Вывод формы {{obj}}</p>
 <br>
-
 <div class="form">
-    <form  method="POST">
+    <form  method="POST" action="{% url 'tasks:my-board' pk=board.id %}">
         {% csrf_token %}
         {{ column_form }}
-        <input type="submit" name="save-column" value="сохранить колонку">
+        <input type="submit" name="column-form" value="сохранить колонку">
     </form>
 </div>
 <br>

@@ -6,7 +6,7 @@ from tasks.views import (
     delete_board,
     delete_column,
     delete_task,
-    # create_task,
+    create_task,
     ColumnAndTaskManagement
 )
 
@@ -26,5 +26,5 @@ urlpatterns = [
 
     path('delete-task/<int:pk>/', delete_task, name='delete-task'),
 
-    # path('create-task-in-column/<int:pk>/', create_task, name='create-task'),
+    path('create-task-in-column/<int:pk>/', create_task, name='create-task'),
 ]
