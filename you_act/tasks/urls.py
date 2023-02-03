@@ -1,8 +1,8 @@
 from django.urls import path
 from tasks.views import (
     BoardDetailView,
-    ColumnDetailView,
-    TaskDetailView,
+    # ColumnDetailView,
+    # TaskDetailView,
     delete_board,
     delete_column,
     delete_task,
@@ -21,10 +21,10 @@ urlpatterns = [
 
     path('delete-board/<int:pk>/', delete_board, name='delete-board'),
 
-    path('my-column/<int:pk>/', TaskDetailView.as_view(), name='my-column'),
+    # path('my-column/<int:pk>/', TaskDetailView.as_view(), name='my-column'),
     path('delete-column/<int:pk>/', delete_column, name='delete-column'),
 
     path('delete-task/<int:pk>/', delete_task, name='delete-task'),
 
-    path('create-task-in-column/<int:pk>/', create_task, name='create-task'),
+    path('task-in-column/<int:pk>/', create_task, name='create-task'),
 ]

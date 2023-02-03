@@ -39,50 +39,50 @@ class BoardDetailView(APIView):
         return Response(serializer)
 
 
-class ColumnDetailView(APIView):
-    '''колонки доски и форма создания колонки'''
-    renderer_classes = [TemplateHTMLRenderer, HTMLFormRenderer]
-    template_name = 'tasks/my_columns.html'
+# class ColumnDetailView(APIView):
+#     '''колонки доски и форма создания колонки'''
+#     renderer_classes = [TemplateHTMLRenderer, HTMLFormRenderer]
+#     template_name = 'tasks/my_columns.html'
 
-    def get(self, request, pk):
-        board = Board.objects.get(pk=pk)
-        columns = Column.objects.filter(board=board)
-        serializer = ColumnSerializer(columns)
+#     def get(self, request, pk):
+#         board = Board.objects.get(pk=pk)
+#         columns = Column.objects.filter(board=board)
+#         serializer = ColumnSerializer(columns)
 
-        all_tasks_on_board = []
-        for column in columns:
-            tasks_in_column = Tasks.objects.filter(column=column)
-            all_tasks_on_board.append(tasks_in_column)
+#         all_tasks_on_board = []
+#         for column in columns:
+#             tasks_in_column = Tasks.objects.filter(column=column)
+#             all_tasks_on_board.append(tasks_in_column)
 
-        return Response({'serializer': serializer, 'columns': columns, 'board': board, 'all_tasks_on_board': all_tasks_on_board})
+#         return Response({'serializer': serializer, 'columns': columns, 'board': board, 'all_tasks_on_board': all_tasks_on_board})
 
-    # def post(self, request, pk):
-    #     board = Board.objects.get(pk=pk)
-    #     serializer = ColumnSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save(board=board)
-    #         return redirect(reverse('tasks:my-board', args=[pk]))
-    #     return Response(serializer)
+#     def post(self, request, pk):
+#         board = Board.objects.get(pk=pk)
+#         serializer = ColumnSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save(board=board)
+#             return redirect(reverse('tasks:my-board', args=[pk]))
+#         return Response(serializer)
 
 
-class TaskDetailView(APIView):
-    '''колонка тасок и форма создания тасок'''
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'tasks/my_tasks.html'
+# class TaskDetailView(APIView):
+#     '''колонка тасок и форма создания тасок'''
+#     renderer_classes = [TemplateHTMLRenderer]
+#     template_name = 'tasks/my_tasks.html'
 
-    def get(self, request, pk):
-        column = Column.objects.get(pk=pk)
-        tasks_in_column = Tasks.objects.filter(column=column)
-        serializer = TaskSerializer(tasks_in_column)
-        return Response({'serializer': serializer, 'tasks_in_column': tasks_in_column, 'column': column})
+#     def get(self, request, pk):
+#         column = Column.objects.get(pk=pk)
+#         tasks_in_column = Tasks.objects.filter(column=column)
+#         serializer = TaskSerializer(tasks_in_column)
+#         return Response({'serializer': serializer, 'tasks_in_column': tasks_in_column, 'column': column})
 
-    def post(self, request, pk):
-        column = Column.objects.get(pk=pk)
-        serializer = TaskSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(column=column)
-            return redirect(reverse('tasks:my-column', args=[pk]))
-        return Response(serializer)
+#     def post(self, request, pk):
+#         column = Column.objects.get(pk=pk)
+#         serializer = TaskSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save(column=column)
+#             return redirect(reverse('tasks:my-column', args=[pk]))
+#         return Response(serializer)
 
 
 # @api_view(['PUT', 'DELETE'])
@@ -104,47 +104,17 @@ def delete_task(request, pk):
     return redirect(reverse('tasks:my-board', args=[task.column.board.id]))
 
 
-
-
-
 def create_task(request, pk):
-    print('-'*50)
-    print(pk)
-
+    '''обрабатываем форму для создания задачи с ColumnAndTaskManagement'''
     if request.method == 'POST':
         if  'task-form' in request.POST:
             form = TasksForm(request.POST)
+            column = Column.objects.get(pk=pk)
             if form.is_valid():
-                print('-'*50)
-                print('TASK валидна форма')
-                print(form)
-                return redirect('/')
-            else:
-                print('-'*50)
-                print('не валидна форма')
-                return render(request, 'tasks/my_columns.html', {'form': form})
-    else:
-        form = TasksForm()
-        return render(request, 'tasks/my_columns.html', {'form': form})
-
-# if  'task-form' in request.POST:
-#     print('-'*50)
-#     print('task-form')
-#     # column = Column.objects.get(pk=pk)
-#     form = TasksForm(self.request.POST)
-#     if form.is_valid():
-#         print('-'*50)
-#         print('форма задачи валидна')
-#         tittle = form.cleaned_data['tittle']
-#         print('-'*50)
-#         print(pk)
-#         print('ИМЯ_____', tittle)
-#         # new_task = Tasks(tittle=tittle, column=id_column)
-#         # new_task.save()
-#         return redirect(reverse('tasks:my-board', args=[pk, id_column]))
-
-
-
+                tittle = form.cleaned_data['tittle']
+                new_task = Tasks(tittle=tittle, column=column)
+                new_task.save()
+                return redirect(reverse('tasks:my-board', args=[column.board.pk]))
 
 
 class ColumnAndTaskManagement(View):
@@ -160,18 +130,23 @@ class ColumnAndTaskManagement(View):
         columns = Column.objects.filter(board=board)
 
         all_tasks_on_board = []
+
+        data = []
+
         for column in columns:
             tasks_in_column = Tasks.objects.filter(column=column)
             all_tasks_on_board.append(tasks_in_column)
+
+            data.append({'id': column.id, 'tasks_in_column': tasks_in_column})
+
         context = {
+            'data': data,
             'column_form':form1,
             'task_form':form2,
             'board': board,
-            'columns': columns,
             'all_tasks_on_board': all_tasks_on_board,
             }
         return render(request, self.template_name, context)
-        # redirect(reverse('tasks:my-board', args=[pk]))
 
     def post(self, request, pk):
         print('-'*50)
@@ -192,77 +167,8 @@ class ColumnAndTaskManagement(View):
                     print(pk)
                     print('ИМЯ____', name_column)
 
-                    # new_column = Column(name_column=name_column, board=board)
-                    # new_column.save()
+                    new_column = Column(name_column=name_column, board=board)
+                    new_column.save()
                     return redirect(reverse('tasks:my-board', args=[pk]))
-            # if  'task-form' in request.POST:
-            #     print('-'*50)
-            #     print('task-form')
-            #     # column = Column.objects.get(pk=pk)
-            #     form = TasksForm(self.request.POST)
-            #     if form.is_valid():
-            #         print('-'*50)
-            #         print('форма задачи валидна')
-            #         tittle = form.cleaned_data['tittle']
-            #         print('-'*50)
-            #         print(pk)
-            #         print('ИМЯ_____', tittle)
-            #         # new_task = Tasks(tittle=tittle, column=id_column)
-            #         # new_task.save()
-            #         return redirect(reverse('tasks:my-board', args=[pk]))
 
         return render(request, self.template_name, {'column-form':self.column_form, 'task-form': self.task_form})
-
-
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(ColumnAndTaskManagement, self).get_context_data(**kwargs)
-    #     print('-'*50)
-    #     print(self.kwargs.get('pk'))
-    #     board = Board.objects.get(pk=self.kwargs.get('pk'))
-    #     print('-'*50)
-    #     print(board)
-    #     print('нашел боард')
-    #     columns = Column.objects.filter(board=board)
-
-    #     all_tasks_on_board = []
-    #     for column in columns:
-    #         tasks_in_column = Tasks.objects.filter(column=column)
-    #         all_tasks_on_board.append(tasks_in_column)
-
-    #     context['board'] = board
-    #     context['columns'] = columns
-    #     context['all_tasks_on_board'] = all_tasks_on_board
-        
-    #     return context
-
-
-    # def post(self, request, *args , **kwargs):
-    #     if self.request.method == 'POST':
-    #         if 'save-column' in self.request.POST:
-    #             column_form = TasksForm(self.request.POST)
-    #             if column_form.is_valid():
-    #                 print('-'*50)
-    #                 print('валидна форма column')
-    #                 print(column_form)
-    #                 return redirect('/')
-    #             else:
-    #                 print('-'*50)
-    #                 print('не валидна форма column')
-    #                 return render(request, 'tasks/my_columns.html', {'column_form': column_form})
-
-    #         if 'save-task' in self.request.POST:
-    #             task_form = TasksForm(self.request.POST)
-    #             if task_form.is_valid():
-    #                 print('-'*50)
-    #                 print('валидна форма task')
-    #                 print(task_form)
-    #                 return redirect('/')
-    #             else:
-    #                 print('-'*50)
-    #                 print('не валидна форма task')
-    #                 return render(request, 'tasks/my_columns.html', {'task_form': task_form})
-    #     else:
-    #         column_form = TasksForm()
-    #         task_form = TasksForm()
-    #         return render(request, 'tasks/my_columns.html', {'task_form': task_form, 'column_form': column_form})

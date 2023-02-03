@@ -4,33 +4,16 @@
 {% block title %}мои колонки{% endblock title %}
 
 {% block my_workspace %}
-    <p>все колонки одной доски</p> <br>
-    {% if columns %}
-        {% for column in columns %}
-            <div class="column">
-                <p>{{ column.board }}</p>
-                <p>{{ column.id }}</p>
-                <p>{{ column.date_create }}</p>
-                <a href="{% url 'tasks:delete-column' column.id %}">удалить колонку</a>
-            </div>
-            <br><br><br>
-        {% endfor %}
-    {% else %}
-    <br><br>
-        <p>на этой доске пока нет колонок!</p>
-    {% endif %}
-
-    <br><br><br><br>
-
-    <p>все таски одной доски</p>
+    <br>
+    <p>все задачи по колонкам одной доски</p>
 
     <br><br>
-        {% for column in all_tasks_on_board %}
+        {% for column in data %}
             <div class="column">
-                {% if column %}
-                <p>{{ column.0.column.id }} - id column</p>
-                
-                    {% for task in column %}
+                <a href="{% url 'tasks:delete-column' column.id %}">УДАЛИТЬ КОЛОНКУ</a> <br>
+                <p>{{ column.id }} - id column</p> <br>
+                {% if column.tasks_in_column %}
+                    {% for task in column.tasks_in_column %}
                         <p>{{ task.tittle }}</p>
                         <p>{{ task.id }}</p>
                         <td>{{ task.description }}</td>
@@ -39,17 +22,16 @@
                         <br><br><br>
                     {% endfor %}
                 {% else %}
-                    <p>на этой доске пока нет колонок!</p>
+                    <p>в этой колонке пока нет задач!</p>
                 {% endif %}
                 <br>
-                <form method="POST" action="{% url 'tasks:create-task' pk=column.0.column.id %}">
+                <form method="POST" action="{% url 'tasks:create-task' pk=column.id %}">
                     {% csrf_token %}
                         {{ task_form }}
                     <input type="submit"  name="task-form" value="сохранить задачу">
                 </form>
                 
-            </div>
-            <br><br>
+            </div><br><br>
         {% endfor %}
 
 <br><br>
