@@ -128,45 +128,27 @@ class ColumnAndTaskManagement(View):
         form2 = self.task_form(None)
         board = Board.objects.get(pk=pk)
         columns = Column.objects.filter(board=board)
-
-        all_tasks_on_board = []
-
         data = []
-
         for column in columns:
             tasks_in_column = Tasks.objects.filter(column=column)
-            all_tasks_on_board.append(tasks_in_column)
 
-            data.append({'id': column.id, 'tasks_in_column': tasks_in_column})
+            data.append({'column': column, 'tasks_in_column': tasks_in_column})
 
         context = {
             'data': data,
             'column_form':form1,
             'task_form':form2,
             'board': board,
-            'all_tasks_on_board': all_tasks_on_board,
             }
         return render(request, self.template_name, context)
 
     def post(self, request, pk):
-        print('-'*50)
-        print('запустился пост')
         if request.method=='POST':
-            print('-'*50)
-            print('метод ПОСТ')
             if 'column-form' in request.POST:
-                print('-'*50)
-                print('column-form')
                 board = Board.objects.get(pk=pk)
                 form = ColumnForm(self.request.POST)
                 if form.is_valid():
-                    print('-'*50)
-                    print('форма колонки валидна')
                     name_column = form.cleaned_data['name_column']
-                    print('-'*50)
-                    print(pk)
-                    print('ИМЯ____', name_column)
-
                     new_column = Column(name_column=name_column, board=board)
                     new_column.save()
                     return redirect(reverse('tasks:my-board', args=[pk]))
