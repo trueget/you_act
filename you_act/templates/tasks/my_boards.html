@@ -36,11 +36,9 @@
     {% else %}
     <p>Созданых досок пока нет</p>
     {% endif %}
-<br><br>
     <h1>Profile - {{ request.user }}</h1>
-    <br>
-    <h1>FORM</h1><br>
-    <h1>Создать свою доску</h1><br><br>
+    <h1>FORM</h1>
+    <h1>Создать свою доску</h1>
 
     <form method="POST">
         {% csrf_token %}
