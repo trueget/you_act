@@ -1,62 +1,88 @@
-{% extends 'base.html' %}
-{% load rest_framework %}
+{% extends 'base.html' %} {% load rest_framework %} {% block title %}мои
+колонки{% endblock title %} {% block my_workspace %}
+<p>все задачи по колонкам одной доски</p>
+{% if click %}
+<a href="{% url 'tasks:click' pk=board.id %}">YES</a>
+{% else %}
+<a href="{% url 'tasks:click' pk=board.id %}">NO</a>
+{% endif %}
+<div class="board">
+  {% for column in data %}
+  <div class="column">
+    <p class="name-column">{{ column.column.name_column }}</p>
 
-{% block title %}мои колонки{% endblock title %}
+    <!-- <a href="{% url 'tasks:delete-column' column.column.id %}">УДАЛИТЬ КОЛОНКУ</a> -->
+    <!-- <p>{{ column.column.id }} - id column</p> -->
 
-{% block my_workspace %}
-    <p>все задачи по колонкам одной доски</p>
-
-    <div class="board">
-        {% for column in data %}
-            <div class="column">
-                <p class="name-column">{{ column.column.name_column }}</p>
-
-                <!-- <a href="{% url 'tasks:delete-column' column.column.id %}">УДАЛИТЬ КОЛОНКУ</a> -->
-                <!-- <p>{{ column.column.id }} - id column</p> -->
-
-                {% if column.tasks_in_column %}
-                    {% for task in column.tasks_in_column %}
-                        <div class="task">
-                            <p class="name-task">{{ task.tittle }}</p>
-                        </div>
-
-                        <!-- <p>{{ task.id }}</p>
-                        <td>{{ task.description }}</td>
-                        <p>{{ task.column }}</p> -->
-                        <!-- <a href="{% url 'tasks:delete-task' task.id %}">удалить таску</a> -->
-
-                        {% endfor %}
-                {% else %}
-                    <p>в этой колонке пока нет задач!</p>
-                {% endif %}
-                <form method="POST" action="{% url 'tasks:create-task' pk=column.column.id %}">
-                    {% csrf_token %}
-                        {{ task_form }}
-                    <input type="submit"  name="task-form" value="сохранить задачу">
-                </form>
-                <button data-toggle="modal" data-target="#mod">модалка</button>
-
-            </div>
-        {% endfor %}
-
-                <!-- moadl -->
-                <div class="modalca" id="mod" tabindex="-1" aria-labelledby="mod" aria-hidden="true">
-                    <p>Mdalca</p>
-                    <button data-dismiss="modal" aria-label="lose"></button>
-                </div>
-                <!-- moadl -->
-
-        <div class="column">
-            <div class="form">
-                <form  method="POST" action="{% url 'tasks:my-board' pk=board.id %}">
-                    {% csrf_token %}
-                    {{ column_form }}
-                    <input type="submit" name="column-form" value="сохранить колонку">
-                </form>
-            </div>
-        </div>
+    {% if column.tasks_in_column %} {% for task in column.tasks_in_column %}
+    <div class="task">
+      <p class="name-task">{{ task.tittle }}</p>
     </div>
 
+    <!-- <p>{{ task.id }}</p>
+                        <td>{{ task.description }}</td>
+                        <p>{{ task.column }}</p> -->
+    <!-- <a href="{% url 'tasks:delete-task' task.id %}">удалить таску</a> -->
 
+    {% endfor %} {% else %}
+    <p class="empty-column">Пустая колонка</p>
+    {% endif %}
 
+    <!-- Кнопка-триггер модального окна -->
+    <button
+      type="button"
+      class="btn btn-second text-light"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      + Add task
+    </button>
+
+    <!-- Модальное окно -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Заголовок модального окна
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Закрыть"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form
+              method="POST"
+              action="{% url 'tasks:create-task' pk=column.column.id %}"
+            >
+              {% csrf_token %} {{ task_form }}
+              <input type="submit" class="btn btn-primary" name="task-form" value="сохранить задачу" />
+            </form>
+          </div>
+          <!-- <button type="button" class="btn btn-primary">
+            Сохранить изменения
+          </button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <div class="column">
+    <div class="form">
+      <form method="POST" action="{% url 'tasks:my-board' pk=board.id %}">
+        {% csrf_token %} {{ column_form }}
+        <input type="submit" name="column-form" value="сохранить колонку" />
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock my_workspace %}

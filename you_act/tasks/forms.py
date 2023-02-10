@@ -13,4 +13,4 @@ class TasksForm(ModelForm):
 
     class Meta:
         model = Tasks
-        fields = ['tittle']
+        fields = ['tittle', 'description']

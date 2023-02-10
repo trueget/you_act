@@ -1,72 +1,86 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'css/global.css' %}" type="text/css">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        {% block title %}шаблон{% endblock title %}
-    </title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/global.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/style.css' %}"
+      type="text/css"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}шаблон{% endblock title %}</title>
+  </head>
+  <body>
     {% block header %}
     <header>
-        <div class="header">
-            <div class="header-container">
-                <div class="header-container-left"><a href="/">Name</a></div>
-                <div class="header-container-mid">
-                    {% if user.is_authenticated %}
-                    <a href="/">Projects</a>
-                    <a href="{% url 'users:my-profile' %}">Profile</a>
-                    <a href="/">Search</a>
-                    {% endif %}
-                    <a href="/">About</a>
-                    <a href="/">Somethink</a>
-                </div>
-                <div class="header-container-right">
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'users:logout' %}">Sign out</a>
-                    {% else %}
-                        <a href="{% url 'users:login' %}">Login</a>
-                        <div class="item-signup">
-                            <a href="{% url 'users:register' %}">Sign Up</a>
-                        </div>
-                    {% endif %}
-                </div>
+      <div class="header">
+        <div class="header-container">
+          <div class="header-container-left"><a href="/">Name</a></div>
+          <div class="header-container-mid">
+            {% if user.is_authenticated %}
+            <a href="/">Projects</a>
+            <a href="{% url 'users:my-profile' %}">Profile</a>
+            <a href="/">Search</a>
+            {% endif %}
+            <a href="/">About</a>
+            <a href="/">Somethink</a>
+          </div>
+          <div class="header-container-right">
+            {% if user.is_authenticated %}
+            <a href="{% url 'users:logout' %}">Sign out</a>
+            {% else %}
+            <a href="{% url 'users:login' %}">Login</a>
+            <div class="item-signup">
+              <a href="{% url 'users:register' %}">Sign Up</a>
             </div>
+            {% endif %}
+          </div>
         </div>
+      </div>
     </header>
     {% endblock header %}
 
     <main>
-    <div class="main-container">
+      <div class="main-container">
         {% block my_profile %}{% endblock my_profile %}
         {% block profile_list %}{% endblock profile_list %}
         {% block user_profile %}{% endblock user_profile %}
         {% block my_workspace %}{% endblock my_workspace %}
-
         {% block proj_managment %}{% endblock proj_managment %}
-
         {% block as %}{% endblock as %}
-
         {% block register_login %}{% endblock register_login %}
-    </div>
+      </div>
     </main>
 
     {% block footer %}
     <footer>
-        <div class="footer-container">
-            <div class="footer">
-                <div class="footer-next-midlle">
-                    <p>2023 Django development</p>
-                </div>
-            </div>
+      <div class="footer-container">
+        <div class="footer">
+          <div class="footer-next-midlle">
+            <p>2023 Django development</p>
+          </div>
         </div>
+      </div>
     </footer>
     {% endblock footer %}
 
-</body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

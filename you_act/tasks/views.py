@@ -107,7 +107,7 @@ def delete_task(request, pk):
 def create_task(request, pk):
     '''обрабатываем форму для создания задачи с ColumnAndTaskManagement'''
     if request.method == 'POST':
-        if  'task-form' in request.POST:
+        if 'task-form' in request.POST:
             form = TasksForm(request.POST)
             column = Column.objects.get(pk=pk)
             if form.is_valid():
@@ -122,6 +122,7 @@ class ColumnAndTaskManagement(View):
     template_name = 'tasks/my_columns.html'
     column_form = ColumnForm
     task_form = TasksForm
+    click = False
 
     def get(self, request, pk):
         form1 = self.column_form(None)
@@ -135,15 +136,17 @@ class ColumnAndTaskManagement(View):
             data.append({'column': column, 'tasks_in_column': tasks_in_column})
 
         context = {
+            'click': self.click,
+
             'data': data,
-            'column_form':form1,
-            'task_form':form2,
+            'column_form': form1,
+            'task_form': form2,
             'board': board,
-            }
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, pk):
-        if request.method=='POST':
+        if request.method == 'POST':
             if 'column-form' in request.POST:
                 board = Board.objects.get(pk=pk)
                 form = ColumnForm(self.request.POST)
@@ -153,4 +156,15 @@ class ColumnAndTaskManagement(View):
                     new_column.save()
                     return redirect(reverse('tasks:my-board', args=[pk]))
 
-        return render(request, self.template_name, {'column-form':self.column_form, 'task-form': self.task_form})
+        return render(request, self.template_name, {'column-form': self.column_form, 'task-form': self.task_form})
+
+
+def tru_or_false(request, pk):
+    click = ColumnAndTaskManagement()
+
+    if click.click:
+        click.click = False
+    else:
+        click.click = True
+    # return click.get(request, pk)
+    return redirect(reverse('tasks:my-board', args=[pk]))
