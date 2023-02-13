@@ -1,41 +1,44 @@
-{% extends 'base.html' %} {% load rest_framework %} {% block title %}мои доски{%
-endblock title %} {% block my_workspace %} {% if all_boards %}
-<table>
-  <tr>
-    <th>id</th>
-    <th>имя доски</th>
-    <th>создатель</th>
-    <th>дата создания</th>
-    <th>участники</th>
-    <th>управление</th>
-  </tr>
-
-  {% for board in all_boards %}
-
-  <tr>
-    <td>{{ board.id }}</td>
-    <td>
-      <a href="{% url 'tasks:my-board' pk=board.id %}"
-        >{{ board.name_board }}</a>
-    </td>
-    <td>{{ board.owner }}</td>
-    <td>{{ board.date_create }}</td>
-    <td>
-      {% for member in board.members.all %} {{ member.username }} {% endfor %}
-    </td>
-    <td><a href="{% url 'tasks:delete-board' board.id %}">удалить</a></td>
-  </tr>
-  {% endfor %}
-</table>
-{% else %}
-<p>Созданых досок пока нет</p>
-{% endif %}
-<h1>Profile - {{ request.user }}</h1>
-<h1>FORM</h1>
-<h1>Создать свою доску</h1>
-
-<form method="POST">
-  {% csrf_token %} {% render_form serializer %}
-  <input type="submit" value="сохранить" />
-</form>
+{% extends "base.html" %}
+{% load rest_framework %}
+{% block title %}
+  мои доски
+{% endblock title %}
+{% block my_workspace %}
+  {% if all_boards %}
+    <table>
+      <tr>
+        <th>id</th>
+        <th>имя доски</th>
+        <th>создатель</th>
+        <th>дата создания</th>
+        <th>участники</th>
+        <th>управление</th>
+      </tr>
+      {% for board in all_boards %}
+        <tr>
+          <td>{{ board.id }}</td>
+          <td>
+            <a href="{% url 'tasks:my-board' pk=board.id %}">{{ board.name_board }}</a>
+          </td>
+          <td>{{ board.owner }}</td>
+          <td>{{ board.date_create }}</td>
+          <td>
+            {% for member in board.members.all %}{{ member.username }}{% endfor %}
+          </td>
+          <td>
+            <a href="{% url 'tasks:delete-board' board.id %}">удалить</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>Созданых досок пока нет</p>
+  {% endif %}
+  <h1>Profile - {{ request.user }}</h1>
+  <h1>FORM</h1>
+  <h1>Создать свою доску</h1>
+  <form method="post">
+    {% csrf_token %} {% render_form serializer %}
+    <input type="submit" value="сохранить" />
+  </form>
 {% endblock my_workspace %}

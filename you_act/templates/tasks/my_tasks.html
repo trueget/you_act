@@ -1,25 +1,35 @@
-{% extends 'base.html' %} {% load rest_framework %} {% block title %}мои
-задачи{% endblock title %} {% block my_workspace %} {% if tasks_in_column %} {%
-for task in tasks_in_column %}
-<div class="column">
-  <p>{{ task.tittle }}</p>
-  <p>{{ task.id }}</p>
-  <td>{{ task.description }}</td>
-  <p>{{ task.column }}</p>
-  <a href="{% url 'tasks:delete-task' task.id %}">удалить таску</a>
-</div>
-<br /><br /><br />
-{% endfor %} {% else %}
-<br /><br />
-<p>в этой колонке пока нет задач!</p>
+{% extends "base.html" %}
+{% load rest_framework %}
+{% block title %}
+  мои
+  задачи
+{% endblock title %}
+{% block my_workspace %}
+  {% if tasks_in_column %}
+    {%
+    for task in tasks_in_column %}
+    <div class="column">
+      <p>{{ task.tittle }}</p>
+      <p>{{ task.id }}</p>
+      <td>{{ task.description }}</td>
+      <p>{{ task.column }}</p>
+      <a href="{% url 'tasks:delete-task' task.id %}">удалить таску</a>
+    </div>
+    <br />
+    <br />
+    <br />
+  {% endfor %}
+{% else %}
+  <br />
+  <br />
+  <p>в этой колонке пока нет задач!</p>
 {% endif %}
-
-<br /><br />
+<br />
+<br />
 <p>Form</p>
 <br />
 <p>Вывод формы</p>
 <br />
-
 <form method="post">
   {% csrf_token %} {% render_form serializer %}
   <input type="submit" value="сохранить" />

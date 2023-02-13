@@ -8,7 +8,6 @@ from tasks.views import (
     delete_task,
     create_task,
     ColumnAndTaskManagement,
-    tru_or_false,
 )
 
 app_name = 'tasks'
@@ -28,6 +27,4 @@ urlpatterns = [
     path('delete-task/<int:pk>/', delete_task, name='delete-task'),
 
     path('task-in-column/<int:pk>/', create_task, name='create-task'),
-
-    path('click/<int:pk>/', tru_or_false, name='click'),
 ]

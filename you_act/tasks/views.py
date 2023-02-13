@@ -157,14 +157,3 @@ class ColumnAndTaskManagement(View):
                     return redirect(reverse('tasks:my-board', args=[pk]))
 
         return render(request, self.template_name, {'column-form': self.column_form, 'task-form': self.task_form})
-
-
-def tru_or_false(request, pk):
-    click = ColumnAndTaskManagement()
-
-    if click.click:
-        click.click = False
-    else:
-        click.click = True
-    # return click.get(request, pk)
-    return redirect(reverse('tasks:my-board', args=[pk]))
