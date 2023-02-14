@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load rest_framework %}
 {% block title %}
   мои колонки
@@ -26,11 +27,12 @@
         {% endif %}
         <!-- Кнопка-триггер модального окна -->
         <button type="button"
-                class="btn btn-second text-light"
+                class="btn btn-second text-light add-task-button"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal_{{column.column.id}}">
           + Add task
         </button>
+
         <!-- Модальное окно -->
         <div class="modal fade"
              id="exampleModal_{{column.column.id}}"
@@ -39,34 +41,81 @@
              aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Заголовок модального окна</h5>
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Закрыть"></button>
+              <div class="form-task-text-x">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">New task</h5>
+                </div>
+                <div class="wrapper-button-close">
+                  <button type="button"
+                    class="btn-close-modal"
+                    data-bs-dismiss="modal"
+                    aria-label="Закрыть">
+                    <img src="{% static '/icons/x.svg' %}" alt="Close">
+                  </button>
+                </div>
               </div>
               <div class="modal-body">
-                <form method="post"
+                <form class="form-create-task" method="post"
                       action="{% url 'tasks:create-task' pk=column.column.id %}">
-                  {% csrf_token %} {{ task_form }}
-                  <input type="submit" name="task-form" value="сохранить задачу" />
+                  {% csrf_token %} 
+                  <p class="tittle-column">Name</p>
+                  {{ task_form.tittle }}
+                  <p class="tittle-column task-description">Description</p>
+                  {{ task_form.description }}
+                  <div class="con-button-save-task">
+                    <input class="button-save-task" type="submit" name="task-form" value="save" />
+                  </div>
                 </form>
               </div>
-              <!-- <input type="submit"  name="task-form" value="сохранить задачу" />
-              <button type="button" class="btn btn-primary">Сохранить изменения</button> -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    {% endfor %}
+
+    <!-- Кнопка-триггер модального окна -->
+      <button type="button"
+        class="btn btn-second text-light column add-column"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal_{{column.column.id}}">
+        + Add column
+      </button>
+
+
+    <!-- Модальное окно -->
+    <div class="modal fade"
+          id="exampleModal_{{column.column.id}}"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="form-task-text-x">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">New column</h5>
+            </div>
+            <div class="wrapper-button-close">
+              <button type="button"
+                class="btn-close-modal"
+                data-bs-dismiss="modal"
+                aria-label="Закрыть">
+                <img src="{% static '/icons/x.svg' %}" alt="Close">
+              </button>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <form method="post" action="{% url 'tasks:my-board' pk=board.id %}">
+                {% csrf_token %} {{ column_form }}
+                <input type="submit" name="column-form" value="сохранить колонку" />
+              </form>
             </div>
           </div>
         </div>
       </div>
-    {% endfor %}
-    <div class="column">
-      <div class="form">
-        <form method="post" action="{% url 'tasks:my-board' pk=board.id %}">
-          {% csrf_token %} {{ column_form }}
-          <input type="submit" name="column-form" value="сохранить колонку" />
-        </form>
-      </div>
     </div>
+
+
   </div>
 {% endblock my_workspace %}

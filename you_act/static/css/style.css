@@ -53,10 +53,6 @@ div>a,
   top: 0;
 }
 
-/* .end-header{
-    margin-top: 60px;
-} */
-
 .header-container {
   height: 100%;
   margin: 0 90px;
@@ -83,6 +79,18 @@ div>a,
   margin: 10px;
   padding: 10px;
   min-width: 300px;
+}
+
+.add-column{
+  background-color: #000;
+}
+
+.add-column:hover{
+  background-color: #25262b;
+}
+
+.add-task-button:hover{
+  transform: scale(1.05);
 }
 
 .board {
@@ -112,17 +120,106 @@ div>a,
 
 .name-task {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 155%;
 }
 
 .name-column {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   margin: 0 20px;
 }
 
 .empty-column {
   margin: 10px 0 0 20px;
   color: #ed6767
+}
+
+.modal-content{
+  background-color: #101113;
+  border: #343A40 1px solid;
+}
+
+.modal-title{
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 31px;
+}
+
+.btn-close-modal{
+  border: none;
+  background-color: #101113;
+  color: #fff;
+}
+
+.modal-header{
+  border-bottom: none;
+  margin: 20px 0 0 20px;
+}
+
+#id_tittle, #id_description{
+  background-color: #101113;
+  border: #343A40 1px solid;
+  border-radius: 4px;
+}
+
+.form-create-task{
+  display: flex;
+  flex-direction: column;
+}
+
+.task-description{
+  margin: 10px 0 0 0;
+}
+
+.modal-header{
+  padding-bottom: 0px;
+}
+
+.tittle-column{
+  color: #868E96;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.button-save-task{
+  margin: 10px 0 0 0;
+  background-color: #25262B;
+  color: #fff;
+  border: none;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  border-radius: 4px;
+  padding: 8px 22px;
+  width: max-content;
+}
+
+.button-save-task:hover{
+  background-color: #3a3c43;
+  transition: 0.5s;
+}
+
+.modal-dialog{
+  width: 460px;
+}
+
+.form-task-text-x{
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-close-modal{
+  margin: 10px;
+}
+
+.modal-body{
+  margin: 0 20px 20px 20px;
+}
+
+.con-button-save-task{
+  display: flex;
+  justify-content: center;
 }
