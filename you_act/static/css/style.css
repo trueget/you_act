@@ -157,7 +157,7 @@ div>a,
   margin: 20px 0 0 20px;
 }
 
-#id_tittle, #id_description{
+#id_tittle, #id_description, #id_name_column{
   background-color: #101113;
   border: #343A40 1px solid;
   border-radius: 4px;
@@ -182,7 +182,7 @@ div>a,
   font-weight: 300;
 }
 
-.button-save-task{
+.button-save{
   margin: 10px 0 0 0;
   background-color: #25262B;
   color: #fff;
@@ -222,4 +222,21 @@ div>a,
 .con-button-save-task{
   display: flex;
   justify-content: center;
+}
+
+input, textarea{
+  padding: 5px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 300;
+  width: 100%;
+}
+
+input::placeholder, textarea::placeholder{
+  color: #fff;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
 }

@@ -58,12 +58,12 @@
                 <form class="form-create-task" method="post"
                       action="{% url 'tasks:create-task' pk=column.column.id %}">
                   {% csrf_token %} 
-                  <p class="tittle-column">Name</p>
+                  <p class="tittle-column">Task name</p>
                   {{ task_form.tittle }}
                   <p class="tittle-column task-description">Description</p>
                   {{ task_form.description }}
                   <div class="con-button-save-task">
-                    <input class="button-save-task" type="submit" name="task-form" value="save" />
+                    <input class="button-save" type="submit" name="task-form" value="save" />
                   </div>
                 </form>
               </div>
@@ -107,8 +107,12 @@
           <div class="modal-body">
             <div class="form">
               <form method="post" action="{% url 'tasks:my-board' pk=board.id %}">
-                {% csrf_token %} {{ column_form }}
-                <input type="submit" name="column-form" value="сохранить колонку" />
+                {% csrf_token %}
+                <p class="tittle-column">Column name</p>
+                {{ column_form.name_column }}
+                <div class="con-button-save-task">
+                  <input class="button-save" type="submit" name="column-form" value="save" />
+                </div>
               </form>
             </div>
           </div>
