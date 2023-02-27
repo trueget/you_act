@@ -112,7 +112,8 @@ def create_task(request, pk):
             column = Column.objects.get(pk=pk)
             if form.is_valid():
                 tittle = form.cleaned_data['tittle']
-                new_task = Tasks(tittle=tittle, column=column)
+                description = form.cleaned_data['description']
+                new_task = Tasks(tittle=tittle, column=column, description=description)
                 new_task.save()
                 return redirect(reverse('tasks:my-board', args=[column.board.pk]))
 
